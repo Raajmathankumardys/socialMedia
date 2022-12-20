@@ -28,13 +28,11 @@ async function signUp(req, res) {
 
 async function signIn(req, res) {
   var userName = await userSchema.findOne({ userName: req.body.userName })
-  console.log(userName, req.body.password,await bcrypt.compare(req.body.password, userName.password));
   try {
-    if (userName && (await bcrypt.compare(req.body.password, userName.password))) {
-      //signing token with user id
-      let jwtSecretKey = 'process.env.jwtSecretKey';
-
-      console.log(jwtSecretKey +'ggggggggggg');
+    !userName && res.send({ accessToken: null, message: "Invalid Gmail" })
+    !await bcrypt.compare(req.body.password, userName.password) && res.send({ accessToken: null, message: "Invalid Password" })
+          //signing token with user id
+      let jwtSecretKey = process.env.JWT_SECRET_KEY;
       var token = jwt.sign(
         { "userId":userName._id,"premiere":userName.premiere},
          jwtSecretKey,{
@@ -48,9 +46,8 @@ async function signIn(req, res) {
           message: "Login successfull",
           accessToken: token,
         });
-return
-    } 
-      res.send({ accessToken: null, message: "Invalid Gmail" })
+
+      
     
 
   } catch (error) {

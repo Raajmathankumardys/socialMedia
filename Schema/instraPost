@@ -9,7 +9,7 @@ var myPost=new Schema({
         type:String,
         require:true
     },
-    about:{
+    description:{
         type:String,
         require:true
     },

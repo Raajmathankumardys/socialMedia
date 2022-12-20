@@ -4,19 +4,24 @@ Schema = mongoose.Schema;
 var profileSchema = new Schema({
     profilePicture: {
         type: String,
-        required:true
-    }, 
+        required: false,
+        default: ''
+    },
     userName: {
         type: String,
-        required: true
+        required: true,
+        min: 3,
+      max: 20,
+      unique: true,
     },
-    age:{
-        type:Number,
-        require:[true,'Please Give Age']
+    age: {
+        type: Number,
+        require: [true, 'Please Give Age']
     },
-    password:{
+    password: {
         type: String,
-        required: true
+        required: true,
+        min: 8,
     },
     bio: {
         type: String,
@@ -38,11 +43,19 @@ var profileSchema = new Schema({
         type: Array,
         required: false
     },
-    premiere:{
-        type:Boolean,
-        require:false
+    premiere: {
+        type: Boolean,
+        require: false
+    },
+    followers: {
+        type: Array,
+        required: false
+    },
+    following: {
+        type: Array,
+        required: false
     }
-});
+},{timestamps:true});
 
-const user= mongoose.model('user', profileSchema)
-module.exports =user
+const user = mongoose.model('user', profileSchema)
+module.exports = user
