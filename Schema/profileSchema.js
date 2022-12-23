@@ -29,7 +29,7 @@ var profileSchema = new Schema({
     },
     dob: {
         type: String,
-        required: true
+        required: true,
     },
     phoneNumber: {
         type: String,
