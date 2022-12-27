@@ -9,7 +9,7 @@ const CommentSchema = new Schema({
     comment: String,
 });
 var myPost = new Schema({
-    UserId: {
+    userId: {
         type: String,
         require: true,
     },
