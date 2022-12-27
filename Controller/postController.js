@@ -1,4 +1,5 @@
-const Post = require('../Schema/post')
+const { default: mongoose } = require('mongoose');
+const Post = require('../Schema/instraPost')
 async function getAllPost(req, res) {
 try {
   const post=await Post.find()
@@ -8,7 +9,9 @@ try {
 }
 }
 async function createPost(req, res) {
+  console.log(req.body);
   const newPost = new Post(req.body);
+  console.log(newPost)
   try {
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);
@@ -49,12 +52,12 @@ async function likeOrDislike(req, res) {
     console.log(post);
     if (!post.likes.includes(req.body.userId)) {
       await post.updateOne({ $push: { likes: req.body.userId } });
-      await post.updateOne( {likecount: post.likes.length });
+      //await post.updateOne( {likecount: post.likes.length });
       res.status(200).json(post.likes.length);
     } else 
     {
       await post.updateOne({ $pull: { likes: req.body.userId } });
-      await post.updateOne( {likecount: post.likes.length });
+      //await post.updateOne( {likecount: post.likes.length });
       res.status(200).json(post.likes.length);
     }
   } catch (err) {
@@ -69,4 +72,23 @@ async function likeOrDislike(req, res) {
     res.status(500).json(err);
   }
 }
-module.exports = { createPost, deletePost, updatePost, likeOrDislike,getPost,getAllPost }
+
+async function commentPost(req,res){
+  try {
+    const post = await Post.findById(req.params.id);
+    if(!post){
+      res.status(200).json({message:'invalid userId'})
+      return
+
+    }
+    console.log(post);
+    await post.updateOne({ $push: {comment_post:req.body.comment_post }});
+    
+    res.status(200).json({message:"Comment added Successfully"})
+  } catch (error) {
+    res.status(400).json({message:error})
+  }
+ 
+}
+
+module.exports = { createPost, deletePost, updatePost, likeOrDislike,getPost,getAllPost,commentPost }
