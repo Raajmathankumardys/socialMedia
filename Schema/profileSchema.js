@@ -3,9 +3,8 @@ Schema = mongoose.Schema;
 
 var profileSchema = new Schema({
     profilePicture: {
-        type: String,
+        type: 'String',
         required: false,
-        default: ''
     },
     userName: {
         type: String,

@@ -1,5 +1,5 @@
 const { default: mongoose } = require('mongoose');
-const Post = require('../Schema/instraPost')
+const Post = require('../Schema/instaPost')
 const User = require('../Schema/profileSchema')
 async function getAllPost(req, res) {
   try {
@@ -96,7 +96,7 @@ async function commentPost(req, res) {
 
 }
 
-async function deletecommentPost(req, res) {
+async function deletecommentPost(req, res) {  
   try {
     console.log(req.params);
     const post = await Post.findById(req.body.post_id);
@@ -113,10 +113,11 @@ async function deletecommentPost(req, res) {
       if (comment._id == req.body.comment_post_id) {
         try {
           await post.updateOne({ $pull: { comment_post: comment } });
-          res.status(200).json({ message: 'COmment Deleted Successfully' })
+          res.status(200).json({ message: 'Comment Deleted Successfully' })
           return
         } catch (error) {
-          //res.status(400).json({ message: error })
+          res.status(400).json({ message: error })
+          return
         }
 
       }

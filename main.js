@@ -1,7 +1,7 @@
 require('./mongoose/mongoose')
 const morgan=require('morgan')
 const express=require('express')
-const user=require('./routers/User')
+const user=require('./routers/Userprofile')
 const postRouter=require('./routers/postRouter')
 const friend=require('./routers/friendFollowRouters')
 const userRouter=require('./routers/UserSignUpRouter')
@@ -11,10 +11,10 @@ var app=express()
 app.use(express.json())
 app.use(morgan("common"))
 app.use(express.urlencoded({extended:true}))
-const PORT=process.env.PORT || 2000
+const PORT=process.env.PORT || 3000
 app.use('/user',userRouter)
-app.use('/userGet',user)
+app.use('/profile',user)
 app.use('/post',postRouter)
 app.use('/post',friend)
 
-app.listen(PORT,function(){console.log('service Started')})
+app.listen(PORT,function(){console.log( PORT,'service Started ')})

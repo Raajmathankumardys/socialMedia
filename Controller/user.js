@@ -1,4 +1,5 @@
 const User=require('../Schema/profileSchema')
+
 async function getUser(req, res)  {
     try {
       const user = await User.findById(req.params.id);
@@ -8,5 +9,16 @@ async function getUser(req, res)  {
       res.status(500).json(err);
     }
   }
+  async function uploadProfilePics(req, res)  {
+    try {
+      console.log(req.file.buffer);
+      console.log(req.User);
+      req.User.profilePicture=req.file.buffer
+      await req.User.save()
+      res.status(200).json({message:'success'+req.User})
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
 
-  module.exports={getUser}
+  module.exports={getUser,uploadProfilePics}

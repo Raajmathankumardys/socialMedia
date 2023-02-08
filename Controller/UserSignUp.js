@@ -17,7 +17,14 @@ async function signUp(req, res) {
   }
   try {
     req.body.password=bcrypt.hashSync(req.body.password, 8)
+    console.log(req.file);
     const user = new userSchema(req.body);
+    if(req.file){
+      user.profilePicture=req.file.path
+      //res.status(200).json({ message: 'upload jpg or png'})
+      //return
+    }
+    
     await user.save()
     res.status(200).json({ message: user})
   } catch (error) {
